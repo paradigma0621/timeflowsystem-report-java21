@@ -14,6 +14,8 @@ java {
 	}
 }
 
+extra["springCloudVersion"] = "2023.0.6" // Spring Cloud Leyton (Boot 3.3.x) :contentReference[oaicite:1]{index=1}
+
 configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
@@ -24,10 +26,19 @@ repositories {
 	mavenCentral()
 }
 
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+	}
+}
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	runtimeOnly("org.postgresql:postgresql")
+
+	// ✅ Eureka Client
+	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")

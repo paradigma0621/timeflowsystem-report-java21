@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: report
+  datasource:
+    url: jdbc:postgresql://localhost:5432/reportdb
+    username: repuser
+    password: 123456
+
+server:
+  port: 0 # intentionally 0 to use a random free port
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
