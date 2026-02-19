@@ -33,18 +33,20 @@ dependencyManagement {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-jdbc")
-	runtimeOnly("org.postgresql:postgresql")
+	dependencies {
+		implementation("org.springframework.boot:spring-boot-starter-web")
+		implementation("org.springframework.boot:spring-boot-starter-jdbc")
+		implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
-	// ✅ Eureka Client
-	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+		runtimeOnly("org.postgresql:postgresql")
 
-	compileOnly("org.projectlombok:lombok")
-	annotationProcessor("org.projectlombok:lombok")
+		compileOnly("org.projectlombok:lombok")
 
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+		annotationProcessor("org.projectlombok:lombok")
+
+		testImplementation("org.springframework.boot:spring-boot-starter-test")
+		testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	}
 }
 
 tasks.withType<Test> {
