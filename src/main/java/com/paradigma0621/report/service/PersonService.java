@@ -4,10 +4,12 @@ import com.paradigma0621.report.dto.PersonDto;
 import com.paradigma0621.report.exception.ResourceNotFoundException;
 import com.paradigma0621.report.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class PersonService {
@@ -23,6 +25,7 @@ public class PersonService {
     }
 
     public List<PersonDto> listByCustomer(Long customerId, boolean removed) {
+        log.info("Executing the request from this console.");
         return repo.findBy(customerId, removed);
     }
 
