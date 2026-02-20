@@ -38,10 +38,10 @@ public class PersonCommon {
     public static final String PERSON_NOT_FOUND =
             """
             {
-                "code": 404,
-                "message": "Not found resource: Person not found",
-                "value": null,
-                "details": []
+                "title": "Not found resource",
+                "status": 404,
+                "detail": "Person not found",
+                "code": 404
             }
             """;
 }

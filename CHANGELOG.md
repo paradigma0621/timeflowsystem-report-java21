@@ -1,4 +1,11 @@
 # Changelog
+## 2026-02-20
+### Commit  (Implemented the AMQP clocking flow using RabbitMQ and standardized exception responses using Spring ProblemDetail)
+- Introduce RabbitMQ clocking flow and standardize error payloads with ProblemDetail
+- Replace ResponseDto errors with ProblemDetail and add AMQP clocking handlers
+- Wire AMQP clocking publisher and update error handling contract
+- Add tests for GlobalExceptionHandler
+
 ## 2026-02-19
 ### Commit 6e0e61c (Associated with Gateway microservice)
 - Configure as Gateway client

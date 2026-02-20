@@ -49,11 +49,11 @@ class PersonControllerIT extends TestIntegrationHelper {
     @Sql(value = "/data/person/one-person-population.sql", executionPhase = BEFORE_TEST_METHOD)
     @Sql(value = "/data/person/cleanup.sql", executionPhase = AFTER_TEST_METHOD)
     void deveRetornar404QuandoNaoEncontrar() throws Exception {
-        mockMvc.perform(
+                mockMvc.perform(
                         get(URI_BY_ID, 999L)
                             .accept(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(content().json(PERSON_NOT_FOUND))
+                .andExpect(content().json(PERSON_NOT_FOUND, false))
                 .andExpect(status().isNotFound());
     }
 

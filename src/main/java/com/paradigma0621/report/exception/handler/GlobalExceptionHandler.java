@@ -1,10 +1,10 @@
 package com.paradigma0621.report.exception.handler;
 
-import com.paradigma0621.report.dto.PersonDto;
-import com.paradigma0621.report.dto.ResponseDto;
+import com.paradigma0621.report.exception.ClockingSenderRequestException;
 import com.paradigma0621.report.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,23 +12,37 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> nullPointerException(NullPointerException ex) {
-        log.error("message", ex);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error in global exception handler: " + ex.getMessage());
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<ProblemDetail> nullPointerExceptionHandler(NullPointerException ex) {
+        log.error("NullPointerException in handler: ", ex);
+
+        ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        pd.setTitle("Unexpected error");
+        pd.setDetail(ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(pd);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ResponseDto<Void>> resourceNotFoundExceptionHandler(ResourceNotFoundException ex) {
+    public ResponseEntity<ProblemDetail> resourceNotFoundExceptionHandler(ResourceNotFoundException ex) {
         log.error("ResourceNotFoundException in handler: ", ex);
 
-        ResponseDto<Void> response = new ResponseDto<>(
-                404L,
-                "Not found resource: " + ex.getMessage(),
-                null
-        );
+        ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        pd.setTitle("Not found resource");
+        pd.setDetail(ex.getMessage());
+        pd.setProperty("code", 404L);
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(pd);
+    }
+
+    @ExceptionHandler(ClockingSenderRequestException.class)
+    public ResponseEntity<ProblemDetail> clockingSenderRequestExceptionHandler(ClockingSenderRequestException ex) {
+        log.error("ClockingSenderRequestException in handler: ", ex);
+
+        ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        pd.setTitle("Clocking sender error");
+        pd.setDetail(ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(pd);
     }
 }
